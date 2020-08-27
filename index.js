@@ -55,7 +55,7 @@ let doAsync = (func, ...params) => {
     youTube.clearParts();
 
     var data = "### Hi there 👋\n";
-    data += "### YouTube\n\n";
+    data += "## YouTube\n\n";
     data += `[![](https://img.shields.io/badge/youtube-${encodeURIComponent(channelName).replace("-","--")}-red?style=plastic&logo=youtube)](https://www.youtube.com/channel/${channelId})\n`
 
     let uploads = await doAsync(youTube.getPlayListsItemsById, uploadsPlaylistId, 10)
@@ -69,7 +69,7 @@ let doAsync = (func, ...params) => {
         data += "#### Latest uploads:\n\n"
         for (let item in items) {
             if (items.hasOwnProperty(item)) {
-                data += `- [${items[item].snippet.title}](https://www.youtube.com/watch?v=${items[item].contentDetails.videoId})\n\n`
+                data += `- [${items[item].snippet.title} ![](https://img.shields.io/youtube/views/${items[item].contentDetails.videoId}?logo=none&style=social)](https://www.youtube.com/watch?v=${items[item].contentDetails.videoId})\n\n`
             }
         }
     }
