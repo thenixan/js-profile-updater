@@ -69,7 +69,7 @@ let doAsync = (func, ...params) => {
         data += "#### Latest uploads:\n\n"
         for (let item in items) {
             if (items.hasOwnProperty(item)) {
-                data += `- [${items[item].snippet.title} ![](https://img.shields.io/youtube/views/${items[item].contentDetails.videoId}?logo=none&style=social)](https://www.youtube.com/watch?v=${items[item].contentDetails.videoId})\n\n`
+                data += `- [${items[item].snippet.title}](https://www.youtube.com/watch?v=${items[item].contentDetails.videoId})\n\n`;
             }
         }
     }
