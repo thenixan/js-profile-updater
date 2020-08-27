@@ -47,16 +47,16 @@ let doAsync = (func, ...params) => {
             core.setFailed("Failed: " + e.message)
         });
 
-    let channelId = channelData["items"][0]["id"];
-    let channelName = channelData["items"][0]["snippet"]["title"];
-    let uploadsPlaylistId = channelData["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"];
+    let channelId = channelData["items"][0].id;
+    let channelName = channelData["items"][0].snippet.title;
+    let uploadsPlaylistId = channelData["items"][0].contentDetails.relatedPlaylists.uploads;
 
     youTube.clearParams();
     youTube.clearParts();
 
     var data = "### Hi there 👋\n";
     data += "### YouTube\n\n";
-    data += `[![](https://img.shields.io/badge/youtube-${encodeURIComponent(channelName)}-red?style=plastic&logo=youtube)](https://www.youtube.com/channel/${channelId})\n`
+    data += `[![](https://img.shields.io/badge/youtube-${encodeURIComponent(channelName).replace("-","--")}-red?style=plastic&logo=youtube)](https://www.youtube.com/channel/${channelId})\n`
 
     let uploads = await doAsync(youTube.getPlayListsItemsById, uploadsPlaylistId, 10)
         .catch(e => {
@@ -65,13 +65,12 @@ let doAsync = (func, ...params) => {
         });
     let items = uploads["items"];
     if (items) {
-        console.log(JSON.stringify(items, null, ' '));
         data += "\n\n";
         data += "#### Latest uploads:"
         for (let item in items) {
-            console.log("----")
-            console.log(JSON.stringify(item, null, ' '));
-            // data += `- [${item["snippet"]["title"]}](https://www.youtube.com/watch?v=${item["contentDetails"]["videoId"]})`
+            if (items.hasOwnProperty(item)) {
+                data += `- [${items[item].snippet.title}](https://www.youtube.com/watch?v=${items[item].contentDetails.videoId})`
+            }
         }
     }
 
