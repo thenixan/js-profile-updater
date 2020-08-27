@@ -32184,7 +32184,7 @@ let doAsync = (func, ...params) => {
         path: "README.md",
     }).catch(e => {
         console.error("Failed: ", e)
-        core.setFailed("Failed: ", e.message)
+        core.setFailed("Failed: " + e.message)
     })
     const sha = getReadme.data.sha
 
@@ -32196,7 +32196,7 @@ let doAsync = (func, ...params) => {
     let channelData = await doAsync(youTube.getChannelById, YOUTUBE_CHANNEL_ID)
         .catch(e => {
             console.error("Failed: ", e)
-            core.setFailed("Failed: ", e.message)
+            core.setFailed("Failed: " + e.message)
         });
 
     let channelId = channelData["items"][0]["id"];
@@ -32214,7 +32214,7 @@ let doAsync = (func, ...params) => {
     let uploads = await doAsync(youTube.getPlayListsItemsById, uploadsPlaylistId, 10)
         .catch(e => {
             console.error("Failed: ", e)
-            core.setFailed("Failed: ", e.message)
+            core.setFailed("Failed: " + e.message)
         });
     let items = uploads["items"];
     let first = items.shift();
@@ -32226,7 +32226,7 @@ let doAsync = (func, ...params) => {
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
         owner: username,
         repo: repo,
-        path: core.getInput('path'),
+        path: "README.md",
         message: '(Automated) Update README.md',
         content: Buffer.from(data, "utf8").toString('base64'),
         sha: sha,
@@ -32234,7 +32234,7 @@ let doAsync = (func, ...params) => {
         core.setOutput("repositories", Array.from(recentRepos))
     }).catch((e) => {
         console.error("Failed: ", e)
-        core.setFailed("Failed: ", e.message)
+        core.setFailed("Failed: " + e.message)
     })
     // console.log(JSON.stringify(uploads, null, ' '));
 })()
