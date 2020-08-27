@@ -66,10 +66,10 @@ let doAsync = (func, ...params) => {
     let items = uploads["items"];
     if (items) {
         data += "\n\n";
-        data += "#### Latest uploads:"
+        data += "#### Latest uploads:\n\n"
         for (let item in items) {
             if (items.hasOwnProperty(item)) {
-                data += `- [${items[item].snippet.title}](https://www.youtube.com/watch?v=${items[item].contentDetails.videoId})`
+                data += `- [${items[item].snippet.title}](https://www.youtube.com/watch?v=${items[item].contentDetails.videoId})\n\n`
             }
         }
     }
