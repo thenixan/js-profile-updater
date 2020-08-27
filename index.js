@@ -50,7 +50,6 @@ let doAsync = (func, ...params) => {
     let channelId = channelData["items"][0]["id"];
     let channelName = channelData["items"][0]["snippet"]["title"];
     let uploadsPlaylistId = channelData["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"];
-    console.log(uploadsPlaylistId);
 
     youTube.clearParams();
     youTube.clearParts();
@@ -66,9 +65,11 @@ let doAsync = (func, ...params) => {
         });
     let items = uploads["items"];
     if (items) {
+        console.log(items);
         data += "\n\n";
         data += "#### Latest uploads:"
         for (let item in items) {
+            console.log(item);
             data += `- [${item["snippet"]["title"]}](https://www.youtube.com/watch?v=${item["contentDetails"]["videoId"]})`
         }
     }
