@@ -65,12 +65,13 @@ let doAsync = (func, ...params) => {
         });
     let items = uploads["items"];
     if (items) {
-        console.log(items);
+        console.log(JSON.stringify(items, null, ' '));
         data += "\n\n";
         data += "#### Latest uploads:"
         for (let item in items) {
-            console.log(item);
-            data += `- [${item["snippet"]["title"]}](https://www.youtube.com/watch?v=${item["contentDetails"]["videoId"]})`
+            console.log("----")
+            console.log(JSON.stringify(item, null, ' '));
+            // data += `- [${item["snippet"]["title"]}](https://www.youtube.com/watch?v=${item["contentDetails"]["videoId"]})`
         }
     }
 
