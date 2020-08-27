@@ -55,9 +55,9 @@ let doAsync = (func, ...params) => {
     youTube.clearParams();
     youTube.clearParts();
 
-    var data = "### Hi there 👋\n" +
-        "---\n";
-    data += "## " + channelName;
+    var data = "### Hi there 👋\n";
+    data += "### YouTube\n\n";
+    data += `[![](https://img.shields.io/badge/youtube-${encodeURIComponent(channelName)}-red?style=plastic&logo=youtube)](https://www.youtube.com/channel/${channelId})\n`
 
     let uploads = await doAsync(youTube.getPlayListsItemsById, uploadsPlaylistId, 10)
         .catch(e => {
@@ -65,10 +65,12 @@ let doAsync = (func, ...params) => {
             core.setFailed("Failed: " + e.message)
         });
     let items = uploads["items"];
-    let first = items.shift();
-    if (first) {
-        console.log(first["snippet"]["title"]);
-        console.log(JSON.stringify(first, null, ' '));
+    if (items) {
+        data += "\n\n";
+        data += "#### Latest uploads:"
+        for (let item in items) {
+            data += `- [${item["snippet"]["title"]}](https://www.youtube.com/watch?v=${item["contentDetails"]["videoId"]})`
+        }
     }
 
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
