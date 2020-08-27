@@ -32230,8 +32230,6 @@ let doAsync = (func, ...params) => {
         message: '(Automated) Update README.md',
         content: Buffer.from(data, "utf8").toString('base64'),
         sha: sha,
-    }).then(() => {
-        core.setOutput("repositories", Array.from(recentRepos))
     }).catch((e) => {
         console.error("Failed: ", e)
         core.setFailed("Failed: " + e.message)
