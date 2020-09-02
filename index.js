@@ -32,8 +32,9 @@ let doAsync = (func, ...params) => {
     let channelName = feed.title;
     let channelLink = feed.link;
 
+    let template = await doAsync(fs.readFile, "TEMPLATE.md", "UTF-8").catch(console.error);
+
     let data = "";
-    data += "## YouTube\n\n";
     data += `[![](https://img.shields.io/badge/youtube-${encodeURIComponent(channelName).replace("-","--")}-red?style=plastic&logo=youtube)](${channelLink})\n`
 
     let items = feed.items;
@@ -47,6 +48,11 @@ let doAsync = (func, ...params) => {
                 data += `- [${items[item].title}](${items[item].link})\n\n`;
             }
         }
+    }
+
+    if (template) {
+        console.log("Template found, replacing");
+        data = template.replace("<!-- YT_RECENTS -->", data);
     }
 
     const username = process.env.GITHUB_REPOSITORY.split("/")[0]
