@@ -1,6 +1,7 @@
 const core = require("@actions/core");
 const RssParser = require("rss-parser");
-const { Octokit } = require('@octokit/core')
+const { Octokit } = require('@octokit/core');
+const fs = require('fs');
 
 const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 const rssParser = new RssParser();
@@ -23,6 +24,12 @@ let doAsync = (func, ...params) => {
 }
 
 (async () => {
+
+    fs.readdir('.', (err, files) => {
+        files.forEach(file => {
+            console.log(file);
+        });
+    });
 
     const YOUTUBE_CHANNEL_ID = core.getInput("youtubeChannelId", {required: true});
 
