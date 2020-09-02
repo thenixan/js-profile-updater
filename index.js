@@ -25,12 +25,6 @@ let doAsync = (func, ...params) => {
 
 (async () => {
 
-    fs.readdir('.', (err, files) => {
-        files.forEach(file => {
-            console.log(file);
-        });
-    });
-
     const YOUTUBE_CHANNEL_ID = core.getInput("youtubeChannelId", {required: true});
 
     let feed = await rssParser.parseURL(`https://www.youtube.com/feeds/videos.xml?channel_id=${YOUTUBE_CHANNEL_ID}`)
@@ -67,15 +61,22 @@ let doAsync = (func, ...params) => {
     })
     const sha = getReadme.data.sha
 
-    await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-        owner: username,
-        repo: repo,
-        path: "README.md",
-        message: '(Automated) Update README.md',
-        content: Buffer.from(data, "utf8").toString('base64'),
-        sha: sha,
-    }).catch((e) => {
-        console.error("Failed: ", e)
-        core.setFailed("Failed: " + e.message)
-    })
+    let oldContent = await doAsync(fs.readFile, "README.md", "UTF-8").catch(console.error);
+
+    if (!oldContent || oldContent !== data) {
+        console.log("Content didn't match, updating");
+        await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+            owner: username,
+            repo: repo,
+            path: "README.md",
+            message: '(Automated) Update README.md',
+            content: Buffer.from(data, "utf8").toString('base64'),
+            sha: sha,
+        }).catch((e) => {
+            console.error("Failed: ", e)
+            core.setFailed("Failed: " + e.message)
+        });
+    } else {
+        console.log("Content matched, no update required");
+    }
 })()
