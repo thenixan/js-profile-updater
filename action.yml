@@ -1,9 +1,6 @@
 name: 'js-profile-updater'
 description: 'Updates your profile README.md with provided latest youtube channel videos.'
 inputs:
-  youtubeApiKey:
-    description: 'The API key for YouTube API.'
-    required: true
   youtubeChannelId:
     description: 'The ID of the channel.'
     required: true
